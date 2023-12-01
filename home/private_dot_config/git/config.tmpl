@@ -1,7 +1,12 @@
 [user]
   name = {{ (keepassxc "GitHub").UserName }}
   email = {{ keepassxcAttribute "GitHub" "noreply-email" }}
+  signingkey = {{ keepassxcAttribute "SSH-Key/github.com" }}
+[commit]
+  gpgsin = true
 [core]
   editor = code --wait
+[gpg]
+  format = ssh
 [init]
   defaultBranch = main
