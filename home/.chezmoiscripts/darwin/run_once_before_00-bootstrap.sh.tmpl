@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+# Xcode Command Line Tools
+xcode-select -p &>/dev/null
+if [ $? -ne 0 ]; then
+  echo "Installing Xcode Command Line Tools..."
+  xcode-select --install
+else
+  echo "Xcode Command Line Tools already installed"
+fi
+
+{{ if eq .chezmoi.arch "arm64" }}
+# Rosetta 2
+pgrep -q oahd
+if [ $? -eq 0]; then
+  echo "Installing Rosetta 2..."
+  softwareupdate --install-rosetta --agree-to-license
+else
+  echo "Rosetta 2 already installed"
+fi
+{{ end }}
+
+# Homebrew
+if ! type brew &> /dev/null; then
+  echo "Installing Homebrew..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+  echo "Homebrew already installed"
+fi
+
+#
+{{ if eq .chezmoi.arch "arm64" }}
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+{{ end }}
+
+# KeepassXC
+if ! type keepassxc-cli &> /dev/null; then
+  echo "Installing KeepassXC..."
+  brew install --cask keepassxc
+else
+  echo "KeepassXC already installed"
+fi
