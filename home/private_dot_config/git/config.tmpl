@@ -1,7 +1,7 @@
 [user]
   name = {{ (keepassxc "GitHub").UserName }}
   email = {{ keepassxcAttribute "GitHub" "noreply-email" }}
-  signingkey = {{ keepassxcAttribute "SSH-Key/github.com" }}
+  signingkey = {{ keepassxcAttribute "SSH-Key/github.com" "public-key" }}
 [commit]
   gpgsin = true
 [core]
