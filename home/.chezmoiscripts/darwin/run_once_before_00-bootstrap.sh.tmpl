@@ -3,8 +3,8 @@
 set -eufo pipefail
 
 # Xcode Command Line Tools
-xcode-select -p &>/dev/null
-if [ $? -ne 0 ]; then
+
+if ! xcode-select -p &>/dev/null; then
   echo "Installing Xcode Command Line Tools..."
   xcode-select --install
 else
@@ -13,8 +13,8 @@ fi
 
 {{ if eq .chezmoi.arch "arm64" }}
 # Rosetta 2
-pgrep -q oahd
-if [ $? -ne 0 ]; then
+
+if ! pgrep -q oahd; then
   echo "Installing Rosetta 2..."
   softwareupdate --install-rosetta --agree-to-license
 else
