@@ -14,7 +14,7 @@ fi
 {{ if eq .chezmoi.arch "arm64" }}
 # Rosetta 2
 pgrep -q oahd
-if [ $? -eq 0]; then
+if [ $? -ne 0 ]; then
   echo "Installing Rosetta 2..."
   softwareupdate --install-rosetta --agree-to-license
 else
