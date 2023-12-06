@@ -1,4 +1,33 @@
+
+{{- $ephemeral  := false -}}
+
+{{- if or (env "GITHUB_TOKEN") (env "CODESPACES") (env "REMOTE_CONTAINERS_IPC") (eq .chezmoi.username "root" "ubuntu" "vagrant" "vscode") -}}
+{{-   $ephemeral = true -}}
+{{- end -}}
+
+{{- if not $ephemeral -}}
+{{-   if stdinIsATTY -}}
+{{-     $ephemeral = promptBoolOnce . "ephemeral" "this machine is ephemeral" -}}
+{{-   else -}}
+{{-     $ephemeral = true -}}
+{{-   end -}}
+{{- end -}}
+
+{{- $brew_prefix := "" -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   if eq .chezmoi.arch "arm64" -}}
+{{-     $brew_prefix = "/opt/homebrew" -}}
+{{-   end -}}
+{{- end -}}
+
 [data]
+  ephemeral = {{ $ephemeral }}
+  brew_prefix = {{ $brew_prefix | quote }}
 
 [keepassxc]
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   if eq .chezmoi.arch "arm64" -}}
+  command = "/opt/homebrew/bin/keepassxc-cli
+{{-   end -}}
+{{- end -}}
   database = "~/sagenell.kdbx"

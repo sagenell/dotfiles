@@ -6,5 +6,15 @@ set -eufo pipefail
   eval "$(/opt/homebrew/bin/brew shellenv)"
 {{ end }}
 
-# ~/.Brewfile hash: {{ include (joinPath .chezmoi.homeDir ".Brewfile") | sha256sum }}
-brew bundle --no-lock --global
+BREW_DIR="$HOME/.config/homebrew"
+
+# Install Homebrew packages
+brew bundle -v --file="$BREW_DIR/Brewfile"
+
+{{ if not .ephemeral }}
+brew bundle -v --file="$BREW_DIR/Caskfile"
+brew bundle -v --file="$BREW_DIR/Codefile"
+brew bundle -v --file="$BREW_DIR/Masfile"
+{{ end }}
+
+brew list
