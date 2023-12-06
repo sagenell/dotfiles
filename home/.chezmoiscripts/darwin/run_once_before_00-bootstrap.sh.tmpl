@@ -3,7 +3,6 @@
 set -eufo pipefail
 
 # Xcode Command Line Tools
-
 if ! xcode-select -p &>/dev/null; then
   echo "Installing Xcode Command Line Tools..."
   xcode-select --install
@@ -11,16 +10,16 @@ else
   echo "Xcode Command Line Tools already installed"
 fi
 
-{{ if eq .chezmoi.arch "arm64" }}
-# Rosetta 2
+{{- if eq .chezmoi.arch "arm64" }}
 
+# Rosetta 2
 if ! pgrep -q oahd; then
   echo "Installing Rosetta 2..."
   softwareupdate --install-rosetta --agree-to-license
 else
   echo "Rosetta 2 already installed"
 fi
-{{ end }}
+{{- end }}
 
 # Homebrew
 if ! type brew &> /dev/null; then

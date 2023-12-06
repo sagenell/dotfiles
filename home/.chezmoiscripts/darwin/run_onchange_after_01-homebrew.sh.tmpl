@@ -2,19 +2,18 @@
 
 set -eufo pipefail
 
-{{ if eq .chezmoi.arch "arm64" }}
+{{- if eq .chezmoi.arch "arm64" }}
   eval "$(/opt/homebrew/bin/brew shellenv)"
-{{ end }}
+{{- end }}
 
 BREW_DIR="$HOME/.config/homebrew"
 
 # Install Homebrew packages
 brew bundle -v --file="$BREW_DIR/Brewfile"
-
-{{ if not .ephemeral }}
+{{- if not .ephemeral }}
 brew bundle -v --file="$BREW_DIR/Caskfile"
 brew bundle -v --file="$BREW_DIR/Codefile"
 brew bundle -v --file="$BREW_DIR/Masfile"
-{{ end }}
+{{- end }}
 
 brew list

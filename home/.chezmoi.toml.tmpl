@@ -25,9 +25,9 @@
   brew_prefix = {{ $brew_prefix | quote }}
 
 [keepassxc]
-{{- if eq .chezmoi.os "darwin" -}}
-{{-   if eq .chezmoi.arch "arm64" -}}
-  command = "/opt/homebrew/bin/keepassxc-cli
-{{-   end -}}
-{{- end -}}
+{{- if eq .chezmoi.os "darwin" }}
+{{-   if eq .chezmoi.arch "arm64" }}
+  command = "/opt/homebrew/bin/keepassxc-cli"
+{{-   end }}
+{{- end }}
   database = "~/sagenell.kdbx"
